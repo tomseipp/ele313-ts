@@ -53,8 +53,8 @@ int main(void){
 	int strongest;
 	int strongest_ir;
 
-	int minir = 20;
-	int threshold = 1000;
+	int minir = 5;
+	int threshold = 600;
 	int selecta;
 	int tof;
 	int tof_thresh_base=100;
@@ -62,12 +62,12 @@ int main(void){
 
 	while (1){ // infinite Main Loop!
 		while (get_selector() < 11){ // when selector >=11 robot wont move, if it was over 11 wheelspeed would be too high
-			
+			set_led(LED1,0);
 			strongest = 0;
 			strongest_ir =0;
 
 			//find max value
-			for (i=0; i<8; i++){
+			for (int i=0; i<8; i++){
 				if (get_calibrated_prox(i)>=get_calibrated_prox(strongest)){
 					strongest = i;
 				}
@@ -89,35 +89,24 @@ int main(void){
 						case 1:
 						case 2:
 						case 3:
-							while (strongest!=0 ||strongest!=7){ // runs while neither of the front sensors are strongest
+
 								left_motor_set_speed(500); // on right therfore spin right
 								right_motor_set_speed(-500);
 								//find strongest sensor each loop of while
-								for (i=0; i<8; i++){
-									if (get_calibrated_prox(i)>get_calibrated_prox(strongest)){
-									strongest = i;
-									}
-								}
-							}
-							left_motor_set_speed(0); // once object is in front, stop spinning
-							right_motor_set_speed(0);
+								set_led(LED1,1);
+
+
 						break;
 						case 4:
 						case 5:
 						case 6:
 						//on left spin left
-							while (strongest!=0 ||strongest!=7){
+
 								left_motor_set_speed(-500);
 								right_motor_set_speed(500);
-								//find max value
-								for (i=0; i<8; i++){
-									if (get_calibrated_prox(i)>get_calibrated_prox(strongest)){
-									strongest = i;
-									}
-								}
-							}
-							left_motor_set_speed(0); // once object is in front, stop spinning
-							right_motor_set_speed(0);
+								set_led(LED1,1);
+
+
 						break;
 						case 7: // infront therfore do nothing
 							left_motor_set_speed(0);
@@ -133,11 +122,11 @@ int main(void){
 							break;
 						case 1:
 							left_motor_set_speed(700);
-							right_motor_set_speed(500);
+							right_motor_set_speed(100);
 							break;
 						case 2:
 							left_motor_set_speed(600);
-							right_motor_set_speed(100);
+							right_motor_set_speed(00);
 							break;
 						case 3:
 							left_motor_set_speed(500);
@@ -148,11 +137,11 @@ int main(void){
 							right_motor_set_speed(500);
 							break;
 						case 5:
-							left_motor_set_speed(100);
+							left_motor_set_speed(00);
 							right_motor_set_speed(600);
 							break;
 						case 6:
-							left_motor_set_speed(500);
+							left_motor_set_speed(100);
 							right_motor_set_speed(700);
 							break;
 						case 7:
@@ -174,7 +163,7 @@ int main(void){
 				selecta = get_selector();
 				tof_thresh = selecta * tof_thresh_base;
 
-				if (tof>tof_thresh){
+				if (tof>0){
 					left_motor_set_speed(-500);
 					right_motor_set_speed(500);
 					

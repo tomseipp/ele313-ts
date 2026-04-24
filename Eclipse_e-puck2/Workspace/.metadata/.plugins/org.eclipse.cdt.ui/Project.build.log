@@ -1,6 +1,20 @@
-16:03:49 **** Incremental Build of configuration Default for project Project ****
+16:01:37 **** Incremental Build of configuration Default for project Project ****
 make all 
-make: Nothing to be done for 'all'.
+[1;34mCompiling main.c[0m
+main.c: In function 'main':
+main.c:61:6: warning: variable 'tof_thresh' set but not used [-Wunused-but-set-variable]
+  int tof_thresh;
+      ^~~~~~~~~~
+[1;34mLinking build/Project_template.elf[0m
+[1;34mCreating build/Project_template.hex[0m
+[1;34mCreating build/Project_template.bin[0m
+[1;34mCreating build/Project_template.dmp[0m
 
-16:03:50 Build Finished. 0 errors, 0 warnings. (took 617ms)
+   text	   data	    bss	    dec	    hex	filename
+  81188	   3780	  18860	 103828	  19594	build/Project_template.elf
+[1;34mCreating build/Project_template.list[0m
+
+[1;34mDone[0m
+
+16:01:38 Build Finished. 0 errors, 1 warnings. (took 836ms)
 
