@@ -64,10 +64,11 @@ int main(void){
 		while (get_selector() < 11){ // when selector >=11 robot wont move, if it was over 11 wheelspeed would be too high
 			
 			strongest = 0;
+			strongest_ir =0;
 
 			//find max value
 			for (i=0; i<8; i++){
-				if (get_calibrated_prox(i)>get_calibrated_prox(strongest)){
+				if (get_calibrated_prox(i)>=get_calibrated_prox(strongest)){
 					strongest = i;
 				}
 			}
