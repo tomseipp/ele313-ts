@@ -53,12 +53,15 @@ int main(void){
 	int strongest;
 	int strongest_ir;
 
-	int minir = 5;
-	int threshold = 600;
+	int minir = 20; // 5 might have been too low and what was causing the issue last session
+	int threshold = 300;
+	int too_close = 400;
 	int selecta;
 	int tof;
 	int tof_thresh_base=100;
 	int tof_thresh;
+	int front_left;
+	int front_right;
 
 	while (1){ // infinite Main Loop!
 		while (get_selector() < 11){ // when selector >=11 robot wont move, if it was over 11 wheelspeed would be too high
@@ -74,10 +77,14 @@ int main(void){
 			}
 
 			strongest_ir = get_calibrated_prox(strongest);
-
+			front_left = get_calibrated_prox(7);
+			front_right = get_calibrated_prox(0);
 			
 			// if it can see the object
-			if (strongest_ir>minir){
+			if (front_left>too_close || front_right>too_close){
+				left_motor_set_speed(-800);
+				right_motor_set_speed(-800);
+			}else if (strongest_ir>minir){
 				// if it is close enough already, stop then turn
 				if (strongest_ir>threshold){ // only runs when robot is super close, turns on spot then stops
 					switch (strongest){
