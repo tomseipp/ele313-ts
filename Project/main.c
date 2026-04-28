@@ -58,13 +58,13 @@ int main(void){
 	int too_close = 400;
 	int selecta;
 	int tof;
-	int tof_thresh_base=100;
+	int tof_thresh_base=100; // 10cm to be multiplied later by selector value
 	int tof_thresh;
 	int front_left;
 	int front_right;
 
 	while (1){ // infinite Main Loop!
-		while (get_selector() < 11){ // when selector >=11 robot wont move, if it was over 11 wheelspeed would be too high
+		while (get_selector() < 11){ // when selector >=11 robot wont move, off switch basically
 			set_led(LED1,0);
 			strongest = 0;
 			strongest_ir =0;
@@ -81,7 +81,7 @@ int main(void){
 			front_right = get_calibrated_prox(0);
 			
 			// if it can see the object
-			if (front_left>too_close || front_right>too_close){
+			if (front_left>too_close || front_right>too_close){ // reverse gear
 				left_motor_set_speed(-800);
 				right_motor_set_speed(-800);
 			}else if (strongest_ir>minir){
@@ -170,7 +170,7 @@ int main(void){
 				selecta = get_selector();
 				tof_thresh = selecta * tof_thresh_base;
 
-				if (tof>0){
+				if (tof>tof_thresh){
 					left_motor_set_speed(-500);
 					right_motor_set_speed(500);
 					
