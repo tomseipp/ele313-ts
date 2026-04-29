@@ -53,8 +53,8 @@ int main(void){
 	int strongest;
 	int strongest_ir;
 
-	int minir = 20; // 5 might have been too low and what was causing the issue last session
-	int threshold = 300;
+	int minir = 30; // 5 might have been too low and what was causing the issue last session
+	int threshold = 150;
 	int too_close = 400;
 	int selecta;
 	int tof;
@@ -62,7 +62,11 @@ int main(void){
 	int tof_thresh;
 	int front_left;
 	int front_right;
-
+	int fspeed;
+	int cspeed;
+	int speed;
+	int corner_left;
+	int corner_right;
 	while (1){ // infinite Main Loop!
 		while (get_selector() < 11){ // when selector >=11 robot wont move, off switch basically
 			set_led(LED1,0);
@@ -79,11 +83,39 @@ int main(void){
 			strongest_ir = get_calibrated_prox(strongest);
 			front_left = get_calibrated_prox(7);
 			front_right = get_calibrated_prox(0);
+			corner_left = get_calibrated_prox(6);
+			corner_right = get_calibrated_prox(1);
 			
 			// if it can see the object
-			if (front_left>too_close || front_right>too_close){ // reverse gear
-				left_motor_set_speed(-800);
-				right_motor_set_speed(-800);
+			if (front_left>too_close || front_right>too_close|| corner_left>too_close || corner_right>too_close){ // reverse gear
+
+				if(front_left>front_right){
+					fspeed = 1.6*front_left -640;
+				} else{
+					fspeed = 1.6*front_right -640;
+
+				}
+				if(corner_left>corner_right){
+					cspeed = 1.6*corner_left -640;
+				} else{
+					cspeed = 1.6*corner_right -640;
+
+				}
+				if(fspeed>cspeed){
+					speed = fspeed;
+				}else{
+					speed = cspeed;
+
+				}
+
+
+				if(speed>=1000){
+					speed = 1000;
+				}
+
+				left_motor_set_speed(-speed);
+				right_motor_set_speed(-speed);
+
 			}else if (strongest_ir>minir){
 				// if it is close enough already, stop then turn
 				if (strongest_ir>threshold){ // only runs when robot is super close, turns on spot then stops
@@ -124,8 +156,8 @@ int main(void){
 				}else{ // only runs when at middle distance (ir can see object but not touching)
 					switch(strongest){
 						case 0:
-							left_motor_set_speed(700);
-							right_motor_set_speed(700);
+							left_motor_set_speed(400);
+							right_motor_set_speed(400);
 							break;
 						case 1:
 							left_motor_set_speed(700);
@@ -152,8 +184,8 @@ int main(void){
 							right_motor_set_speed(700);
 							break;
 						case 7:
-							left_motor_set_speed(700);
-							right_motor_set_speed(700);
+							left_motor_set_speed(400);
+							right_motor_set_speed(400);
 							break;
 					}
 				}
